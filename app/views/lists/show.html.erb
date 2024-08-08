@@ -1,5 +1,19 @@
-<h1>Lists#show</h1>
-<p>Find me in app/views/lists/show.html.erb</p>
 <h2><%= @list.name %></h2>
-<p><%= @movie.title %></p>
-<p><%= @movie.overview %></p>
+<h4>Bookmark :</h4>
+
+<div>
+  <% @bookmarks.each do |bookmark|%>
+  <img src="<%= bookmark.movie.poster_url %>" width="250"><br>
+  <%= bookmark.movie.title %>  --  Rating:
+  <%= bookmark.movie.rating %><br>
+  <%= bookmark.movie.overview %><br>
+  <p>Comment: <%= bookmark.comment %>
+  <%= link_to "Delete",
+    bookmark_path(bookmark),
+    data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}
+  %></p><br>
+  <% end %>
+</div>
+<p><%= link_to "Add a new movie",  new_list_bookmark_path(@list)%></p>
+
+<p><%= link_to "Retour a la liste",  lists_path()%></p>

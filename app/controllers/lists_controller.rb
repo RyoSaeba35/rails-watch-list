@@ -1,9 +1,11 @@
 class ListsController < ApplicationController
   def index
     @lists = List.all
+    @bookmarks = Bookmark.all
   end
 
   def show
+    @bookmarks = Bookmark.where("list_id = '#{params[:id]}'")
     @list = List.find(params[:id])
   end
 
@@ -12,9 +14,13 @@ class ListsController < ApplicationController
   end
 
   def create
-    # @list = List.find(params[:id])
     @list = List.new(list_params)
     @list.save
+    if @list.save
+      redirect_to list_path(@list)
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private
